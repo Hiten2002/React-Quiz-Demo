@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main class="overflow-hidden">
+
+        <!-- step-number -->
+        <div class="step-number">
+            <div class="step-number-inner">
+                Question <span id="activeStep"></span>
+            </div>
+        </div>
+
+        <div class="step-number time-remaining">
+            <div class="step-number-inner">
+                Time Remaining <span id="time-remain">1</span>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="quiz-content">
+
+                <!-- side image -->
+                <div class="side-img">
+                    <img src="img/side.png" alt="side-img">
+                </div>
+
+                <!-- bar -->
+                <div class="step-bar">
+                    <div class="bar">
+                        <div class="w-100 fill"></div>
+                    </div>
+                    <div class="bar">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="bar">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="bar">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="bar">
+                        <div class="fill"></div>
+                    </div>
+                </div>
+
+                <div class="quiz-section">
+                    <div class="show-section wrapper">
+
+                        <!-- step 1 -->
+                        <section class="steps">
+
+                            <div class="qustion-box">
+                                <h2 class="q-heading" id="question">
+                                </h2>
+
+                                <!-- form field -->
+                                <div class="form-inner">
+                                    <div class="radio-field">
+                                        <input class="checkmark" type="radio" name="op1" value="Russia">
+                                        <label id="a">Russia</label>
+                                    </div>
+                                    <div class="radio-field">
+                                        <input class="checkmark" type="radio" name="op1" value="America">
+                                        <label id="b">America</label>
+                                    </div>
+                                    <div class="radio-field">
+                                        <input class="checkmark" type="radio" name="op1" value="Australia">
+                                        <label id="c">Australia</label>
+                                    </div>
+                                    <div class="radio-field">
+                                        <input class="checkmark" type="radio" name="op1" value="Hong Kong">
+                                        <label id="d">Hong Kong</label>
+                                    </div>
+
+                                </div>
+
+                                <div class="question overflow-hidden">
+                                    <img src="img/question-sign.png" alt="question">
+                                </div>
+                            </div>
+
+                            <!-- next previous button -->
+                            <div class="next-prev">
+                                <button type="button" class="next" id="step1btn" onclick="nextQuiz()">
+                                    Next Question <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="next-prev" style="display: none;">
+                                <button type="submit" class="next" id="submit">
+                                    Submit <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </section>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result_page"
+            style="clip-path: circle(0% at 50% 50%); pointer-events: none; visibility: hidden; position: absolute; display: none;">
+            <div class="result_inner">
+                <div class="result_inner2">
+                    <h2>Knowledge Check</h2>
+                    <div class="p_result">
+                        <div class="p_score">Passing Score: </div>
+                        <span>80 Points</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="result_show">
+                        <h2>Result</h2>
+                        <div class="result_msg">Better Luck Next Time!</div>
+                    </div>
+                </div>
+                <!-- rectangle -->
+                <img class="behind_bg" src="img/bh-clip.png" alt="rectangle">
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Custom js -->
+    <script src="js/custome.js"></script>
+
+</body>
+
+</html>
