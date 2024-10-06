@@ -39,7 +39,128 @@ const quizData = [
         d: "1993",
         correct: "b",
     },
+    {
+        question: "What does CSS stand for?",
+        a: "Creative Style Sheets",
+        b: "Cascading Style Sheets",
+        c: "Computer Style Sheets",
+        d: "Colorful Style Sheets",
+        correct: "b",
+    },
+    {
+        question: "Which company developed Java?",
+        a: "Microsoft",
+        b: "Google",
+        c: "Sun Microsystems",
+        d: "Apple",
+        correct: "c",
+    },
+    {
+        question: "Which HTML element is used for the largest heading?",
+        a: "<h1>",
+        b: "<h6>",
+        c: "<heading>",
+        d: "<h4>",
+        correct: "a",
+    },
+    {
+        question: "Which of the following is not a programming language?",
+        a: "Python",
+        b: "HTML",
+        c: "Java",
+        d: "Swift",
+        correct: "b",
+    },
+    {
+        question: "What does SQL stand for?",
+        a: "Structured Query Language",
+        b: "Simple Query Language",
+        c: "Statement Query Language",
+        d: "Structured Quick Language",
+        correct: "a",
+    },
+    {
+        question: "What does API stand for?",
+        a: "Application Programming Interface",
+        b: "Application Process Interface",
+        c: "Automated Programming Interface",
+        d: "Applied Process Interface",
+        correct: "a",
+    },
+    {
+        question: "Who invented the World Wide Web?",
+        a: "Steve Jobs",
+        b: "Bill Gates",
+        c: "Tim Berners-Lee",
+        d: "Mark Zuckerberg",
+        correct: "c",
+    },
+    {
+        question: "Which of the following is a NoSQL database?",
+        a: "MySQL",
+        b: "MongoDB",
+        c: "PostgreSQL",
+        d: "SQLite",
+        correct: "b",
+    },
+    {
+        question: "What is the correct way to create a comment in JavaScript?",
+        a: "// This is a comment",
+        b: "<!-- This is a comment -->",
+        c: "/* This is a comment */",
+        d: "** This is a comment",
+        correct: "a",
+    },
+    {
+        question: "Which method is used to convert JSON data into a JavaScript object?",
+        a: "JSON.parse()",
+        b: "JSON.stringify()",
+        c: "JSON.objectify()",
+        d: "JSON.convert()",
+        correct: "a",
+    },
+    {
+        question: "Which protocol is used to send web pages?",
+        a: "HTTP",
+        b: "FTP",
+        c: "SMTP",
+        d: "SSH",
+        correct: "a",
+    },
+    {
+        question: "What is the full form of PHP?",
+        a: "Personal Hypertext Processor",
+        b: "Preprocessor Home Page",
+        c: "PHP: Hypertext Preprocessor",
+        d: "Programmed Home Page",
+        correct: "c",
+    },
+    {
+        question: "Which symbol is used for comments in Python?",
+        a: "//",
+        b: "#",
+        c: "/* */",
+        d: "<!-- -->",
+        correct: "b",
+    },
+    {
+        question: "Which company owns GitHub?",
+        a: "Amazon",
+        b: "Google",
+        c: "Microsoft",
+        d: "Facebook",
+        correct: "c",
+    },
+    {
+        question: "What is the default port for HTTP?",
+        a: "443",
+        b: "80",
+        c: "22",
+        d: "21",
+        correct: "b",
+    },
 ];
+
 
 const questionEl = document.getElementById("question");
 const a_text = document.getElementById("a");
@@ -73,6 +194,8 @@ function loadQuiz() {
 
     // Disable the next button initially
     nextButton.disabled = true;
+    nextButton.style.opacity = 0.7;
+
     startCountdown();
 }
 
@@ -113,6 +236,7 @@ document.querySelectorAll('input[name="op1"]').forEach(option => {
     option.addEventListener('change', () => {
         // Enable the next button once an option is selected
         nextButton.disabled = false;
+        nextButton.style.opacity = 1;
     });
 });
 
@@ -293,7 +417,7 @@ function showResult() {
                 optionElement.style.fontWeight = 'bold';
             }
 
-            
+
             // Highlight the selected answer
             const selectedAnswer = userAnswers[index];
             if (selectedAnswer === option) {
@@ -305,6 +429,16 @@ function showResult() {
             optionList.appendChild(optionElement);
         });
 
+        // If no answer was selected, show "Skipped" message
+        if (!userAnswers[index]) {
+            const skippedMessage = document.createElement('li');
+            skippedMessage.innerText = "Skipped";
+            skippedMessage.style.color = 'orange'; // Style for skipped questions
+            skippedMessage.style.fontWeight = 'bold';
+            skippedMessage.style.fontStyle = 'italic';
+            optionList.appendChild(skippedMessage);
+        }
+
         // Append the option list to the question box
         questionBox.appendChild(optionList);
 
@@ -312,9 +446,6 @@ function showResult() {
         reviewContainer.appendChild(questionBox);
     });
 }
-
-
-
 
 loadQuiz();
 startCountdown();
