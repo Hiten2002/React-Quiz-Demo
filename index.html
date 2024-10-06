@@ -22,35 +22,15 @@
 
         <div class="step-number time-remaining">
             <div class="step-number-inner">
-                Time Remaining <span id="time-remain">1</span>
+                Time Remaining <span id="time-remain">10</span>
             </div>
         </div>
 
         <div class="container">
             <div class="quiz-content">
-
                 <!-- side image -->
                 <div class="side-img">
                     <img src="img/side.png" alt="side-img">
-                </div>
-
-                <!-- bar -->
-                <div class="step-bar">
-                    <div class="bar">
-                        <div class="w-100 fill"></div>
-                    </div>
-                    <div class="bar">
-                        <div class="fill"></div>
-                    </div>
-                    <div class="bar">
-                        <div class="fill"></div>
-                    </div>
-                    <div class="bar">
-                        <div class="fill"></div>
-                    </div>
-                    <div class="bar">
-                        <div class="fill"></div>
-                    </div>
                 </div>
 
                 <div class="quiz-section">
@@ -60,28 +40,26 @@
                         <section class="steps">
 
                             <div class="qustion-box">
-                                <h2 class="q-heading" id="question">
-                                </h2>
+                                <h2 class="q-heading" id="question"></h2>
 
                                 <!-- form field -->
                                 <div class="form-inner">
                                     <div class="radio-field">
-                                        <input class="checkmark" type="radio" name="op1" value="Russia">
-                                        <label id="a">Russia</label>
+                                        <input class="checkmark" type="radio" name="op1" value="a">
+                                        <label for="a" id="a"></label>
                                     </div>
                                     <div class="radio-field">
-                                        <input class="checkmark" type="radio" name="op1" value="America">
-                                        <label id="b">America</label>
+                                        <input class="checkmark" type="radio" name="op1" value="b">
+                                        <label for="b" id="b"></label>
                                     </div>
                                     <div class="radio-field">
-                                        <input class="checkmark" type="radio" name="op1" value="Australia">
-                                        <label id="c">Australia</label>
+                                        <input class="checkmark" type="radio" name="op1" value="c">
+                                        <label for="c" id="c"></label>
                                     </div>
                                     <div class="radio-field">
-                                        <input class="checkmark" type="radio" name="op1" value="Hong Kong">
-                                        <label id="d">Hong Kong</label>
+                                        <input class="checkmark" type="radio" name="op1" value="d">
+                                        <label for="d" id="d"></label>
                                     </div>
-
                                 </div>
 
                                 <div class="question overflow-hidden">
@@ -91,17 +69,17 @@
 
                             <!-- next previous button -->
                             <div class="next-prev">
-                                <button type="button" class="next" id="step1btn" onclick="nextQuiz()">
+                                <button type="button" class="next" id="next-button" disabled onclick="nextQuiz()">
                                     Next Question <i class="fa-solid fa-arrow-right"></i>
                                 </button>
                             </div>
-                            <div class="next-prev" style="display: none;">
-                                <button type="submit" class="next" id="submit">
+                            <div class="next-prev" style="display: none;" id="submit-button">
+                                <button type="button" class="next" id="submit" onclick="showResult()">
                                     Submit <i class="fa-solid fa-arrow-right"></i>
                                 </button>
                             </div>
-                        </section>
 
+                        </section>
 
                     </div>
                 </div>
@@ -109,22 +87,30 @@
         </div>
 
         <div class="result_page"
-            style="clip-path: circle(0% at 50% 50%); pointer-events: none; visibility: hidden; position: absolute; display: none;">
+            style="clip-path: circle(0% at 50% 50%); pointer-events: none; visibility: hidden; position: absolute; display: none; justify-content: center; width: 100%;">
+        <!-- <div class="result_page"
+            style="clip-path: circle(100% at 50% 50%); pointer-events: auto; visibility: visible; position: absolute; display: flex; justify-content: center; width: 100%;"> -->
             <div class="result_inner">
                 <div class="result_inner2">
-                    <h2>Knowledge Check</h2>
-                    <div class="p_result">
-                        <div class="p_score">Passing Score: </div>
-                        <span>80 Points</span>
-                    </div>
-                    <div class="line"></div>
+                    <h2 class="result-heading">Result</h2>
                     <div class="result_show">
-                        <h2>Result</h2>
-                        <div class="result_msg">Better Luck Next Time!</div>
+                        <div class="correct">Correct Answers: <span id="correct"></span></div>
+                        <div class="wrong">Wrong Answers: <span id="wrong"></span></div>
+                        <div class="skip">Skipped Questions: <span id="skip"></span></div>
                     </div>
                 </div>
-                <!-- rectangle -->
-                <img class="behind_bg" src="img/bh-clip.png" alt="rectangle">
+                <div class="review-container">
+                    <div class="review-question-box">
+                        <h3>Q1: What is the capital of France?</h3>
+                        <ul>
+                            <li class="option" id="option-a-0">A: New
+                                York</li>
+                            <li class="option" id="option-b-0">B: London</li>
+                            <li class="option" id="option-c-0" style="color: green; font-weight: bold;">C: Paris</li>
+                            <li class="option" id="option-d-0">D: Berlin</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 

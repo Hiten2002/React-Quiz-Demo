@@ -51,10 +51,16 @@ const resultMessage = document.querySelector('.result_msg');
 const totalQuestions = quizData.length;
 
 let currentQuiz = 0;
-let score = 0;
 let countdownInterval;
+const nextButton = document.getElementById("next-button");
+const submitDiv = document.getElementById("submit-button");
+let userAnswers = []; // Store user answers
 
 function loadQuiz() {
+    // Clear any previously selected radio button
+    const answers = document.querySelectorAll('input[name="op1"]');
+    answers.forEach(answer => answer.checked = false); // Uncheck all radio buttons
+
     const currentQuizData = quizData[currentQuiz];
     questionEl.innerText = currentQuizData.question;
     a_text.innerText = currentQuizData.a;
@@ -64,6 +70,9 @@ function loadQuiz() {
 
     const quizIndexEl = document.getElementById("activeStep");
     quizIndexEl.innerText = `${currentQuiz + 1}/${quizData.length}`;
+
+    // Disable the next button initially
+    nextButton.disabled = true;
     startCountdown();
 }
 
@@ -90,45 +99,222 @@ function startCountdown() {
 function getSelectedAnswer() {
     const answers = document.querySelectorAll('input[name="op1"]');
     let selectedAnswer;
+
     answers.forEach(answer => {
         if (answer.checked) {
-            selectedAnswer = answer.value;
+            selectedAnswer = answer.value; // Store the selected answer value
         }
     });
+
     return selectedAnswer;
 }
 
+document.querySelectorAll('input[name="op1"]').forEach(option => {
+    option.addEventListener('change', () => {
+        // Enable the next button once an option is selected
+        nextButton.disabled = false;
+    });
+});
+
 function nextQuiz() {
     const selectedAnswer = getSelectedAnswer();
-    if (selectedAnswer && selectedAnswer === quizData[currentQuiz].correct) {
-        score += 20; // Assign 20 points for each correct answer
-    }
-    
+    userAnswers[currentQuiz] = selectedAnswer; // Store the selected answerFs
+
     currentQuiz++;
-    
-    if (currentQuiz < quizData.length) {
+
+    if (currentQuiz < quizData.length - 1) {
+        // Load the next question if it's not the last one
         loadQuiz();
+    } else if (currentQuiz === quizData.length - 1) {
+        // On the last question, show the submit button and hide the next button
+        loadQuiz();
+        submitDiv.style.display = "block";
+        nextButton.style.display = "none";
     } else {
+        showResult()
         clearInterval(countdownInterval);
-        showResult(); // Show result when the quiz ends
     }
 }
 
+// function showResult() {
+//     let correctAnswers = 0;
+//     let wrongAnswers = 0;
+//     let skippedAnswers = 0;
+
+
+
+//     quizData.forEach((quiz, index) => {
+//         const selectedAnswer = userAnswers[index];
+
+//         if (selectedAnswer) {
+//             if (selectedAnswer === quiz.correct) {
+//                 correctAnswers++;
+//             } else {
+//                 wrongAnswers++;
+//             }
+//         } else {
+//             skippedAnswers++;
+//         }
+//     });
+
+
+//     // Hide quiz content
+//     document.querySelector('.quiz-content').style.display = 'none';
+
+//     // Show result page
+//     const resultPage = document.querySelector(".result_page");
+//     // Show result page
+//     resultPage.style.clipPath = 'circle(100% at 50% 50%)';
+//     resultPage.style.pointerEvents = 'auto';
+//     resultPage.style.visibility = 'visible';
+//     resultPage.style.display = 'flex';
+
+//     document.getElementById('correct').innerHTML = correctAnswers;
+//     document.getElementById('wrong').innerHTML = wrongAnswers;
+//     document.getElementById('skip').innerHTML = skippedAnswers;
+
+//     // Create a container for showing the answers
+//     const reviewContainer = document.createElement('div');
+//     reviewContainer.classList.add('review-container');
+
+//     quizData.forEach((quiz, index) => {
+//         // Get the user's selected answer for the current question
+//         const selectedAnswer = userAnswers[index];
+
+//         // Create a div for each question
+//         const questionBox = document.createElement('div');
+//         questionBox.classList.add('review-question-box');
+//         document.querySelectorAll(".review-question")
+
+//         // Add the question text
+//         const questionHeading = document.createElement('h3');
+//         questionHeading.innerText = `Q${index + 1}: ${quiz.question}`;
+//         questionBox.appendChild(questionHeading);
+
+//         // Show all options for the question
+//         const optionList = document.createElement('ul');
+//         optionList.classList.add('option-list');
+
+//         // Loop through each option (a, b, c, d)
+//         ['a', 'b', 'c', 'd'].forEach(option => {
+//             const optionEl = document.createElement('li');
+//             optionEl.innerText = `${option.toUpperCase()}: ${quiz[option]}`;
+
+//             // Highlight the correct answer in green
+//             if (option === quiz.correct) {
+//                 optionEl.style.color = 'green';
+//                 optionEl.style.fontWeight = 'bold';
+//             }
+
+//             // Highlight the selected answer (correct or incorrect)
+//             if (selectedAnswer === option) {
+//                 optionEl.style.textDecoration = 'underline'; // Underline the selected answer
+//                 optionEl.style.color = selectedAnswer === quiz.correct ? 'green' : 'red'; // Blue if correct, red if wrong
+//             }
+
+//             optionList.appendChild(optionEl);
+//         });
+
+//         questionBox.appendChild(optionList);
+
+//         // Append the question box to the review container
+//         reviewContainer.appendChild(questionBox);
+//     });
+
+//     // Append the review container to the result inner section
+//     resultInner.appendChild(reviewContainer);
+
+// }
+
+
 function showResult() {
-    // Hide quiz content and show result page
+    let correctAnswers = 0;
+    let wrongAnswers = 0;
+    let skippedAnswers = 0;
+
+    quizData.forEach((quiz, index) => {
+        const selectedAnswer = userAnswers[index];
+
+        if (selectedAnswer) {
+            if (selectedAnswer === quiz.correct) {
+                correctAnswers++;
+            } else {
+                wrongAnswers++;
+            }
+        } else {
+            skippedAnswers++;
+        }
+    });
+
+    // Hide quiz content
     document.querySelector('.quiz-content').style.display = 'none';
+
+    // Show result page
+    const resultPage = document.querySelector(".result_page");
     resultPage.style.clipPath = 'circle(100% at 50% 50%)';
     resultPage.style.pointerEvents = 'auto';
     resultPage.style.visibility = 'visible';
-    resultPage.style.display = 'block';
+    resultPage.style.display = 'flex';
 
-    // Determine the result message
-    if (score >= 80) {
-        resultMessage.innerText = 'Congratulations! You Passed!';
-    } else {
-        resultMessage.innerText = 'Better Luck Next Time!';
-    }
+    document.getElementById('correct').innerHTML = correctAnswers;
+    document.getElementById('wrong').innerHTML = wrongAnswers;
+    document.getElementById('skip').innerHTML = skippedAnswers;
+
+    // Get the container for review questions
+    const reviewContainer = document.querySelector('.review-container');
+    reviewContainer.innerHTML = ''; // Clear it before adding new content
+
+    // Loop through quiz data and display the results
+    quizData.forEach((quiz, index) => {
+        // Create a new div for each question
+        const questionBox = document.createElement('div');
+        questionBox.classList.add('review-question-box');
+
+        // Add the question heading
+        const questionHeading = document.createElement('h3');
+        questionHeading.innerText = `Q${index + 1}: ${quiz.question}`;
+        questionBox.appendChild(questionHeading);
+
+        // Create the option list
+        const optionList = document.createElement('ul');
+
+        // Loop through each option (a, b, c, d)
+        ['a', 'b', 'c', 'd'].forEach(option => {
+            const optionElement = document.createElement('li');
+            optionElement.classList.add('option');
+            optionElement.id = `option-${option}-${index}`; // Unique ID for each option
+
+            optionElement.innerText = `${option.toUpperCase()}: ${quiz[option]}`;
+
+            // Highlight correct answer
+            if (option === quiz.correct) {
+                optionElement.style.color = 'green';
+                optionElement.style.backgroundColor = '#c2ffc2'; // Correct background color for the right answer
+                optionElement.style.fontWeight = 'bold';
+            }
+
+            
+            // Highlight the selected answer
+            const selectedAnswer = userAnswers[index];
+            if (selectedAnswer === option) {
+                optionElement.style.color = selectedAnswer === quiz.correct ? 'green' : 'red';
+                optionElement.style.backgroundColor = selectedAnswer === quiz.correct ? '#c2ffc2' : '#ffbfbf'; // Background color based on correctness
+                optionElement.style.borderColor = selectedAnswer === quiz.correct ? 'green' : 'red'; // Border color for selected answer
+            }
+
+            optionList.appendChild(optionElement);
+        });
+
+        // Append the option list to the question box
+        questionBox.appendChild(optionList);
+
+        // Append the question box to the review container
+        reviewContainer.appendChild(questionBox);
+    });
 }
+
+
+
 
 loadQuiz();
 startCountdown();
